@@ -1,7 +1,9 @@
-const { RouteBases } = require("discord.js");
-const Discord = require("discord.js");
+const { Client, Intents } = require("discord.js");
 
-const client = new Discord.Client();
+const myIntents = new Intents();
+myIntents.add(Intents.FLAGS.GUILD_MESSAGES);
+
+const client = new Client({ intents: myIntents });
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);

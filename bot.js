@@ -29,8 +29,14 @@ client.on("ready", () => {
   // send emoji message
   client.channels
     .fetch(CONFIG.CHANNEL_ID)
-    .then((channel) => channel.send(randomEmojis.join(" ")))
-    .catch(console.error);
+    .then((channel) => {
+      channel.send(randomEmojis.join(" "));
+      process.exit(0);
+    })
+    .catch(() => {
+      console.error;
+      process.exit(1);
+    });
 });
 
 client.login(CONFIG.BOT_TOKEN);

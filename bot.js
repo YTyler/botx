@@ -35,7 +35,7 @@ client.on("ready", () => {
       client.channels
         .fetch(CONFIG.CHANNEL_ID)
         .then((channel) => {
-          channel.send("**Doodlebot says draw this!**");
+          channel.send("**Doodlebot says draw this, coward!**");
           channel.send(randomEmojis.join(" "));
         })
         .catch(() => console.error);

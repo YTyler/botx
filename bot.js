@@ -31,14 +31,17 @@ client.on("ready", () => {
     usedCategories.add(randomCategory);
 
     //Choose an emoji from the category
-    const emojis = client.emojis.filter((emoji) =>
-      emoji.name.includes(randomCategory)
-    );
+    const emojis = client.emojis.cache.filter((emoji) => {
+      emoji.name.includes(randomCategory);
+    });
     const randomIndex = Math.floor(Math.random() * emojis.size);
-    randomEmojis.push(emojis.array()[randomIndex]);
+    randomEmojis.push(emojis.at(randomIndex));
   }
   //send emoji message
-  client.channels.get(CONFIG.CHANNEL_ID).send(randomEmojis.join(" "));
+  client.channels
+    .fetch(CONFIG.CHANNEL_ID)
+    .then((channel) => channel.send("test"))
+    .catch(console.error);
 });
 
 client.login(CONFIG.BOT_TOKEN);

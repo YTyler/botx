@@ -1,4 +1,4 @@
-const { Client, Intents, IntentsBitField } = require("discord.js");
+const { Client, IntentsBitField } = require("discord.js");
 const CONFIG = require("./config.json");
 
 const myIntents = new IntentsBitField([IntentsBitField.Flags.GuildMessages]); //bot permissions

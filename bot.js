@@ -12,7 +12,7 @@ client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
   cron.schedule(
-    "* * * * *",
+    "0 0 * * *",
     () => {
       const bannedCategories = [8, 9];
       const randomEmojis = [];

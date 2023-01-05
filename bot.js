@@ -1,4 +1,5 @@
 const { Client, Intents } = require("discord.js");
+const CONFIG = require("./config.json");
 
 const myIntents = new Intents();
 myIntents.add(Intents.FLAGS.GUILD_MESSAGES);
@@ -38,7 +39,7 @@ client.on("ready", () => {
     randomEmojis.push(emojis.array()[randomIndex]);
   }
   //send emoji message
-  client.channels.get("YOUR_CHANNEL_ID").send(randomEmojis.join(" "));
+  client.channels.get(CONFIG.CHANNEL_ID).send(randomEmojis.join(" "));
 });
 
-client.login("YOUR_BOT_TOKEN");
+client.login(CONFIG.BOT_TOKEN);

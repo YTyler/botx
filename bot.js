@@ -1,5 +1,6 @@
 const { Client, IntentsBitField } = require("discord.js");
 const CONFIG = require("./config.json");
+const data = require("emojibase-data/en/compact.json");
 
 const myIntents = new IntentsBitField([IntentsBitField.Flags.GuildMessages]); //bot permissions
 
@@ -8,39 +9,27 @@ const client = new Client({ intents: myIntents });
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
-  //categories of emojis from discord
-  const categories = [
-    "people",
-    "nature",
-    "food",
-    "activity",
-    "travel",
-    "objects",
-  ];
-  const usedCategories = new Set();
+  const bannedCategories = [8, 9];
   const randomEmojis = [];
 
   while (randomEmojis.length < 3) {
-    let randomCategory =
-      categories[Math.floor(Math.random() * categories.length)];
-    //reselect a category if it has been chosen already
-    while (usedCategories.has(randomCategory)) {
-      randomCategory =
-        categories[Math.floor(Math.random() * categories.length)];
-    }
-    usedCategories.add(randomCategory);
+    //Choose an emoji
+    let randomIndex = Math.floor(Math.random() * data.length);
+    let emoji = data.at(randomIndex);
 
-    //Choose an emoji from the category
-    const emojis = client.emojis.cache.filter((emoji) => {
-      emoji.name.includes(randomCategory);
-    });
-    const randomIndex = Math.floor(Math.random() * emojis.size);
-    randomEmojis.push(emojis.at(randomIndex));
+    //repick if emoji from previous or banned category
+    while (bannedCategories.includes(emoji.group)) {
+      randomIndex = Math.floor(Math.random() * data.length);
+      emoji = data.at(randomIndex);
+    }
+    //add final emoji info to arrays
+    bannedCategories.push(emoji.group);
+    randomEmojis.push(emoji.unicode);
   }
-  //send emoji message
+  // send emoji message
   client.channels
     .fetch(CONFIG.CHANNEL_ID)
-    .then((channel) => channel.send("test"))
+    .then((channel) => channel.send(randomEmojis.join(" ")))
     .catch(console.error);
 });
 

@@ -5,14 +5,13 @@ const cron = require("node-cron");
 
 const myIntents = new IntentsBitField([IntentsBitField.Flags.GuildMessages]); //bot permissions
 const client = new Client({ intents: myIntents });
-
 client.login(CONFIG.BOT_TOKEN);
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 
   const EMOJI_LIBRARY = data.emojiDefinitions;
-
+  let lastMessage = null;
   cron.schedule(
     "0 0 * * *",
     () => {
@@ -37,8 +36,22 @@ client.on("ready", () => {
       client.channels
         .fetch(CONFIG.CHANNEL_ID)
         .then((channel) => {
-          channel.send("**DoodleBot says draw this, coward!**");
-          channel.send(randomEmojis.join(" "));
+          channel.send("**DoodleBot says draw this!**");
+          channel
+            .send(randomEmojis.join(" "))
+            .then((message) => {
+              //pin emoji message
+              message
+                .pin("Today's DoodleBot Prompt")
+                .then(() => {
+                  if (lastMessage) {
+                    lastMessage.unpin();
+                  }
+                  lastMessage = message;
+                })
+                .catch(console.error);
+            })
+            .catch(console.error);
         })
         .catch(() => console.error);
     },

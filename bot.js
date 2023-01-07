@@ -56,7 +56,7 @@ client.on("ready", () => {
         .catch(() => console.error);
     },
     {
-      timezone: "America/New_York",
+      timezone: "America/Los_Angeles",
     }
   );
 });

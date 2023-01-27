@@ -15,7 +15,7 @@ client.on("ready", () => {
   cron.schedule(
     "0 0 * * *",
     () => {
-      const bannedCategories = ["flags", "symbols"];
+      const bannedCategories = ["people", "flags", "symbols"];
       const randomEmojis = [];
 
       while (randomEmojis.length < 3) {
